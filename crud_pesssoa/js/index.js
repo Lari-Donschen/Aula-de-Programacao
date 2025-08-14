@@ -29,18 +29,20 @@ async function atualizarTodo(elemento){
     var cpf = elementoAtualizar.querySelector(".valor-cpf");
 
     console.log(nome.value, endereco.value, cpf.value);
-    await atualizarBanco(elemento.substring(1,elemento.length),nome.value);
+    await atualizarBanco(elemento.substring(1,elemento.length),nome.value, cpf.value, endereco.value);
 }
 
-async function atualizarBanco(idElemento, descricao){
+async function atualizarBanco(idElemento, nome, cpf, endereco){
     await fetch('http://localhost:8080/update.php', {
         method: 'PUT',
         headers: {
             'Content-type': 'application/json; charset=UTF-8',
         },
         body: JSON.stringify({
-            "id":idElemento,
-            "descricao":descricao
+            "idpessoas":idElemento,
+            "nome":nome,
+            "cpf":cpf,
+            "endereco":endereco
         })
     })
     .then((response) => {
