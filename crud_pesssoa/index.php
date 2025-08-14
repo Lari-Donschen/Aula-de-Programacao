@@ -6,26 +6,12 @@
 </head>
 <body>
     <?php
-        function Atualizar($idpessoa, $nome, $cpf, $endereco){
-            $connection = require("conectar.php");                        
-            if ($connection -> 
-                query(@"UPDATE pessoa SET description = '$pessoa' WHERE idpessoa = '$idpessoa'")) {                 
-            }
-            if ($connection -> 
-                query(@"UPDATE pessoa SET description = '$pessoa' WHERE nome = '$nome'")) {                 
-            }if ($connection -> 
-                query(@"UPDATE pessoa SET description = '$pessoa' WHERE cpf = '$cpf'")) {                 
-            }if ($connection -> 
-                query(@"UPDATE pessoa SET description = '$pessoa' WHERE endereco = '$endereco'")) {                 
-            }
-            $connection -> close();
-        }
 
-        #SALVAR
+        #SALVAR PESSOA
         function Salvar($nome, $cpf, $endereco){
             $connection = require("conectar.php");  
             if ($connection -> 
-                query(@"INSERT INTO pessoa (nome, cpf, endereco) VALUES ('$nome', '$cpf', '$endereco')")) {                 
+                query(@"INSERT INTO pessoa (nome, cpf, endereco) VALUES ('$nome', '$cpf', '$endereco');")) {                 
             } 
             $connection -> close();
         }
@@ -43,18 +29,20 @@
                 $cpf = $row["cpf"];
                 $endereco = $row["endereco"];              
                 echo "<div>"; 
-                echo "<tr>"
+                echo "<tr id = "."_".$row["idpessoa"].">"
                         . "</td>"
-                           . @"<input type='text' class = 'valor-descricao' value = '$nome'/>"                         
-                        . "</td>"
-                        . "</td>"
-                           . @"<input type='text' class = 'valor-descricao' value = '$cpf'/>"                         
+                           . @"<input type='text' class = 'valor-nome' value = '$nome'/>"                         
                         . "</td>"
                         . "</td>"
-                           . @"<input type='text' class = 'valor-descricao' value = '$endereco'/>"                         
+                           . @"<input type='text' class = 'valor-cpf' value = '$cpf'/>"                         
+                        . "</td>"
+                        . "</td>"
+                           . @"<input type='text' class = 'valor-endereco' value = '$endereco'/>"                         
                         . "</td>"
                         . "</td>"
                         . @"<button onclick=removerTodo($rowid)>Remover</button>"
+                        . "</td>"
+                        . "</td>"
                         . @"<button onclick=atualizarTodo($rowid)>Atualizar</button>"
                         ."</td>"                                            
                     ."</tr>";                          
@@ -70,40 +58,27 @@
                 $endereco = htmlspecialchars($_POST['endereco']);
                 if(!empty($nome) && !empty($cpf) && !empty($endereco)){
                 Salvar($nome, $cpf, $endereco);
-                }           
-            } 
-        if ($_SERVER["REQUEST_METHOD"] == "PUT") {
-            $nome = htmlspecialchars($_POST['nome']); 
-            $cpf = htmlspecialchars($_POST['cpf']);
-            $endereco = htmlspecialchars($_POST['endereco']);
-            if(!empty($nome) && !empty($cpf) && !empty($endereco)){
-                Atualizar($nome, $cpf, $endereco);
-            }           
-        } 
+                }                 
+            }
+            Recuperar(); 
+        if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            Recuperar();        
+        }
+
         if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
-            $nome = htmlspecialchars($_POST['nome']); 
-            $cpf = htmlspecialchars($_POST['cpf']);
-            $endereco = htmlspecialchars($_POST['endereco']);
-            if(!empty($nome) && !empty($cpf) && !empty($endereco)){
-                Atualizar($nome, $cpf, $endereco);
-            }           
-        }  
-        Recuperar();     
+            $idRemover = $_GET['id']; 
+            echo "Pegou: ". $idRemover;           
+        }     
         
     ?>
 
     <!--RECEBE DADOS DO USUARIO!-->
     <form method="post">
-        <label for="nome">Nome:</label>
-        <input name="nome" id="nome" type="text">
-        <br>
-        <label for="cpf">CPF:</label>
-        <input name="cpf" id="cpf" type="text">
-        <br>
-        <label for="endereco">Endereco:</label>
-        <input name="endereco" id="endereco" type="text">
-        <button type="submit"> Salvar</button>
-
+        <label for="pessoa">Cadastros de Pessoas</label>
+        <input name="nome" id="nome" placeholder= "nome" type="text">
+        <input name="cpf" id="cpf" placeholder= "cpf" type="text">
+        <input name="endereco" id = "endereco" placeholder = "endereco" type="text">
+        <button type="submit">Salvar</button>
     </form> 
 </body>
 <script src="/js/index.js"></script>

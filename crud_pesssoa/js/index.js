@@ -6,7 +6,7 @@ async function removerTodo (elemento){
 }
 
 async function removerBanco(idElemento){
-    await fetch('http://localhost:8080/remove.php?id='+idElemento, {
+    await fetch('http://localhost:8080/delete.php?id='+idElemento, {
         method: 'DELETE'})
     .then((response) => {
         if (!response.ok) {
@@ -24,8 +24,11 @@ async function removerBanco(idElemento){
 
 async function atualizarTodo(elemento){
     var elementoAtualizar = document.querySelector("#"+elemento);
-    var nome = elementoAtualizar.querySelector(".nome");
-    console.log(nome.value);
+    var nome = elementoAtualizar.querySelector(".valor-nome");
+    var endereco = elementoAtualizar.querySelector(".valor-endereco");
+    var cpf = elementoAtualizar.querySelector(".valor-cpf");
+
+    console.log(nome.value, endereco.value, cpf.value);
     await atualizarBanco(elemento.substring(1,elemento.length),nome.value);
 }
 
