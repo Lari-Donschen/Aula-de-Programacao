@@ -37,13 +37,27 @@
 
             $result = $mysqli->query($sql);
             echo "<table>";
-            while ($row = $result->fetch_assoc()) {           
+            while ($row = $result->fetch_assoc()) {   
+                $rowid = "'_" . $row["idpessoa"] . "'";       
+                $nome = $row["nome"];
+                $cpf = $row["cpf"];
+                $endereco = $row["endereco"];              
                 echo "<div>"; 
-                echo "<tr>"                          
-                        . "<td>".$row["nome"]."</td>"
-                        . "<td>".$row["cpf"]."</td>"
-                        . "<td>".$row["endereco"]."</td>"
-                    ."</tr>";
+                echo "<tr>"
+                        . "</td>"
+                           . @"<input type='text' class = 'valor-descricao' value = '$nome'/>"                         
+                        . "</td>"
+                        . "</td>"
+                           . @"<input type='text' class = 'valor-descricao' value = '$cpf'/>"                         
+                        . "</td>"
+                        . "</td>"
+                           . @"<input type='text' class = 'valor-descricao' value = '$endereco'/>"                         
+                        . "</td>"
+                        . "</td>"
+                        . @"<button onclick=removerTodo($rowid)>Remover</button>"
+                        . @"<button onclick=atualizarTodo($rowid)>Atualizar</button>"
+                        ."</td>"                                            
+                    ."</tr>";                          
                 echo "</div>";
             }
             echo "</table>";
@@ -74,7 +88,8 @@
                 Atualizar($nome, $cpf, $endereco);
             }           
         }  
-        Recuperar();        
+        Recuperar();     
+        
     ?>
 
     <!--RECEBE DADOS DO USUARIO!-->
